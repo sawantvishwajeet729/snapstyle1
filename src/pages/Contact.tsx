@@ -24,7 +24,7 @@ const Contact = () => {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-accent" />
-            <span className="text-2xl font-bold text-foreground">StyleAI</span>
+            <span className="text-2xl font-bold text-foreground">SnapStyle</span>
           </Link>
           <Link to="/">
             <Button variant="ghost" size="sm">
@@ -113,10 +113,10 @@ const Contact = () => {
           <div className="mt-12 text-center">
             <p className="text-muted-foreground mb-4">Or reach us directly at</p>
             <a
-              href="mailto:hello@styleai.com"
+              href="mailto:hello@snapstyle.com"
               className="text-2xl font-semibold text-accent hover:text-accent/80 transition-colors"
             >
-              hello@styleai.com
+              hello@snapstyle.com
             </a>
           </div>
         </div>
