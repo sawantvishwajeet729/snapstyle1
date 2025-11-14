@@ -11,7 +11,7 @@ const Home = () => {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-accent" />
-            <span className="text-2xl font-bold text-foreground">StyleAI</span>
+            <span className="text-2xl font-bold text-foreground">SnapStyle</span>
           </Link>
           <div className="flex gap-6 items-center">
             <Link to="/" className="text-foreground hover:text-accent transition-colors">
@@ -144,10 +144,10 @@ const Home = () => {
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Sparkles className="w-5 h-5 text-accent" />
-            <span className="text-xl font-bold text-foreground">StyleAI</span>
+            <span className="text-xl font-bold text-foreground">SnapStyle</span>
           </div>
           <p className="text-muted-foreground">
-            © 2025 StyleAI. Your AI-powered fashion companion.
+            © 2025 SnapStyle. Your AI-powered fashion companion.
           </p>
         </div>
       </footer>
