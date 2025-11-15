@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Sparkles, Camera, ShoppingBag } from "lucide-react";
 import heroImage from "@/assets/hero-fashion.jpg";
+import logo from "@/assets/logo.png";
 
 const Home = () => {
   return (
@@ -10,8 +11,7 @@ const Home = () => {
       <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-accent" />
-            <span className="text-2xl font-bold text-foreground">SnapStyle</span>
+            <img src={logo} alt="SnapStyle Logo" className="h-10 w-auto" />
           </Link>
           <div className="flex gap-6 items-center">
             <Link to="/" className="text-foreground hover:text-accent transition-colors">
@@ -143,8 +143,7 @@ const Home = () => {
       <footer className="py-12 px-6 border-t border-border">
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="w-5 h-5 text-accent" />
-            <span className="text-xl font-bold text-foreground">SnapStyle</span>
+            <img src={logo} alt="SnapStyle Logo" className="h-8 w-auto" />
           </div>
           <p className="text-muted-foreground">
             © 2025 SnapStyle. Your AI-powered fashion companion.
