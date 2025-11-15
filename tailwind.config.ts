@@ -94,6 +94,7 @@ export default {
       backgroundImage: {
         "gradient-hero": "var(--gradient-hero)",
         "gradient-accent": "var(--gradient-accent)",
+        "gradient-vibrant": "var(--gradient-vibrant)",
       },
       boxShadow: {
         elegant: "var(--shadow-elegant)",
