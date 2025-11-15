@@ -6,7 +6,6 @@ import { Sparkles, Upload, Loader2, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import OutfitOptions from "@/components/OutfitOptions";
-import logo from "@/assets/logo.png";
 import ShoppingResults from "@/components/ShoppingResults";
 
 interface OutfitOption {
@@ -67,7 +66,8 @@ const Stylist = () => {
       <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="SnapStyle Logo" className="h-10 w-auto" />
+            <Sparkles className="w-6 h-6 text-accent" />
+            <span className="text-2xl font-bold text-foreground">SnapStyle</span>
           </Link>
           <Link to="/">
             <Button variant="ghost" size="sm">
