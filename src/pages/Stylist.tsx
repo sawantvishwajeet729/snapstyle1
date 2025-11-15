@@ -105,19 +105,19 @@ const Stylist = () => {
                     Choose a clear, well-lit photo for the best results
                   </p>
                 </div>
-                <label htmlFor="image-upload">
-                  <Button size="lg" className="bg-charcoal hover:bg-charcoal/90 text-pearl cursor-pointer">
+                <label htmlFor="image-upload" className="cursor-pointer">
+                  <Button size="lg" className="bg-charcoal hover:bg-charcoal/90 text-pearl pointer-events-none">
                     <Upload className="w-5 h-5 mr-2" />
                     Select Image
                   </Button>
-                  <input
-                    id="image-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
                 </label>
+                <input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
               </div>
             </Card>
           )}
@@ -160,18 +160,18 @@ const Stylist = () => {
                           </>
                         )}
                       </Button>
-                      <label htmlFor="image-upload-change">
-                        <Button variant="outline" className="w-full" disabled={analyzing}>
+                      <label htmlFor="image-upload-change" className="cursor-pointer w-full block">
+                        <Button variant="outline" className="w-full pointer-events-none" disabled={analyzing}>
                           Change Photo
                         </Button>
-                        <input
-                          id="image-upload-change"
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                          className="hidden"
-                        />
                       </label>
+                      <input
+                        id="image-upload-change"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
                     </div>
                   </div>
                 </div>
