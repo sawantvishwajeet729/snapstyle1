@@ -67,9 +67,7 @@ const Stylist = () => {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-accent" />
-            <span className="text-2xl font-bold text-foreground">
-              Snap<span className="bg-gradient-accent bg-clip-text text-transparent">Style</span>
-            </span>
+            <span className="text-2xl font-bold text-foreground">SnapStyle</span>
           </Link>
           <Link to="/">
             <Button variant="ghost" size="sm">
