@@ -13,11 +13,14 @@ interface OutfitOption {
   description: string;
 }
 
+type StylePreference = "Casual" | "Modern" | "Stylish" | "Traditional";
+
 const Stylist = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [outfitOptions, setOutfitOptions] = useState<OutfitOption[]>([]);
   const [selectedOutfit, setSelectedOutfit] = useState<OutfitOption | null>(null);
+  const [stylePreference, setStylePreference] = useState<StylePreference>("Modern");
   const { toast } = useToast();
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +42,10 @@ const Stylist = () => {
     setAnalyzing(true);
     try {
       const { data, error } = await supabase.functions.invoke("analyze-style", {
-        body: { image: selectedImage.split(",")[1] }
+        body: { 
+          image: selectedImage.split(",")[1],
+          stylePreference 
+        }
       });
 
       if (error) throw error;
@@ -141,6 +147,24 @@ const Stylist = () => {
                       and body proportions. Then it will generate three personalized outfit 
                       suggestions tailored just for you.
                     </p>
+                    
+                    {/* Style Preference Selection */}
+                    <div className="space-y-3">
+                      <label className="text-sm font-medium text-foreground">Choose Your Style</label>
+                      <div className="grid grid-cols-2 gap-3">
+                        {(["Casual", "Modern", "Stylish", "Traditional"] as StylePreference[]).map((style) => (
+                          <Button
+                            key={style}
+                            variant={stylePreference === style ? "default" : "outline"}
+                            onClick={() => setStylePreference(style)}
+                            className={stylePreference === style ? "bg-charcoal hover:bg-charcoal/90 text-pearl" : ""}
+                          >
+                            {style}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+
                     <div className="space-y-4">
                       <Button
                         size="lg"

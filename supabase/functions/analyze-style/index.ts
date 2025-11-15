@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { image } = await req.json();
+    const { image, stylePreference = "Modern" } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
     if (!LOVABLE_API_KEY) {
@@ -66,15 +66,15 @@ serve(async (req) => {
     console.log("Generating outfit descriptions...");
     const outfitPrompt = `Based on this physical description: "${physicalDescription}"
 
-Generate 3 distinct, fashionable outfit options. For each outfit, provide a detailed description in this exact format:
+Generate 3 distinct, fashionable outfit options in a ${stylePreference} style. For each outfit, provide a detailed description in this exact format:
 
-OUTFIT 1: [Describe a complete outfit with specific colors, patterns, and pieces. Include top, bottom, shoes, and any accessories. Be specific about colors and styles.]
+OUTFIT 1: [Describe a complete ${stylePreference.toLowerCase()} outfit with specific colors, patterns, and pieces. Include top, bottom, shoes, and any accessories. Be specific about colors and styles.]
 
-OUTFIT 2: [Describe a different complete outfit with specific details]
+OUTFIT 2: [Describe a different complete ${stylePreference.toLowerCase()} outfit with specific details]
 
-OUTFIT 3: [Describe a third unique complete outfit with specific details]
+OUTFIT 3: [Describe a third unique complete ${stylePreference.toLowerCase()} outfit with specific details]
 
-Make each outfit distinct in style (e.g., casual, business casual, evening wear) and ensure the colors and styles complement the person's features.`;
+Make each outfit distinct in subcategory (e.g., day wear, office appropriate, evening) while maintaining the ${stylePreference} aesthetic. Ensure the colors and styles complement the person's features.`;
 
     const outfitResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
