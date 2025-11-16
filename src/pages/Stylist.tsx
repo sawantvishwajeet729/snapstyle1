@@ -41,16 +41,26 @@ const Stylist = () => {
 
     setAnalyzing(true);
     try {
-      const { data, error } = await supabase.functions.invoke("analyze-style", {
-        body: { 
-          image: selectedImage.split(",")[1],
-          stylePreference 
-        }
+      // Call your FastAPI backend
+      const response = await fetch("YOUR_FASTAPI_URL/analyze-style", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image: selectedImage.split(",")[1], // base64 image data without the data:image/... prefix
+          stylePreference: stylePreference
+        })
       });
 
-      if (error) throw error;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Analysis failed");
+      }
 
+      const data = await response.json();
       setOutfitOptions(data.outfits);
+      
       toast({
         title: "Analysis Complete!",
         description: "Your personalized outfit options are ready.",
