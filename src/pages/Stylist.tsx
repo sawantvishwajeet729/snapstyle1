@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { Sparkles, Upload, Loader2, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+
 import OutfitOptions from "@/components/OutfitOptions";
 import ShoppingResults from "@/components/ShoppingResults";
 
@@ -168,8 +168,8 @@ const Stylist = () => {
                     <h3 className="text-3xl font-bold text-foreground">Ready to Analyze</h3>
                     <p className="text-muted-foreground leading-relaxed">
                       Our AI will analyze your photo to identify your skin tone, face shape, 
-                      and body proportions. Then it will generate three personalized outfit 
-                      suggestions tailored just for you.
+                      and body proportions. Then it will generate a personalized outfit 
+                      suggestion tailored just for you.
                     </p>
                     
                     {/* Style Preference Selection */}
