@@ -41,16 +41,20 @@ const Stylist = () => {
 
     setAnalyzing(true);
     try {
-      // Call your FastAPI backend
-      const response = await fetch("YOUR_FASTAPI_URL/analyze-style", {
+      // Convert base64 to File object
+      const base64Response = await fetch(selectedImage);
+      const blob = await base64Response.blob();
+      const file = new File([blob], "photo.jpg", { type: "image/jpeg" });
+
+      // Create FormData
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("style", stylePreference);
+
+      // Call FastAPI backend
+      const response = await fetch("https://snapstyle-api-1.onrender.com/generate-fashion", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          image: selectedImage.split(",")[1], // base64 image data without the data:image/... prefix
-          stylePreference: stylePreference
-        })
+        body: formData,
       });
 
       if (!response.ok) {
@@ -59,13 +63,23 @@ const Stylist = () => {
       }
 
       const data = await response.json();
-      setOutfitOptions(data.outfits);
+      
+      // Transform the response to match frontend expectations
+      const outfits: OutfitOption[] = [
+        {
+          image: `data:image/png;base64,${data.image_base64}`,
+          description: JSON.stringify(data.description)
+        }
+      ];
+      
+      setOutfitOptions(outfits);
       
       toast({
         title: "Analysis Complete!",
-        description: "Your personalized outfit options are ready.",
+        description: "Your personalized outfit option is ready.",
       });
     } catch (error: any) {
+      console.error("Analysis error:", error);
       toast({
         title: "Analysis Failed",
         description: error.message || "Please try again.",

@@ -36,13 +36,30 @@ const ShoppingResults = ({ outfit, onBack }: ShoppingResultsProps) => {
   const searchItems = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("search-fashion", {
-        body: { description: outfit.description }
-      });
+      // Parse description to get individual items
+      let items: string[] = [];
+      try {
+        const desc = JSON.parse(outfit.description);
+        items = Object.entries(desc).map(([key, value]) => `${key}: ${value}`);
+      } catch {
+        items = [outfit.description];
+      }
 
-      if (error) throw error;
+      const searchResults: ShoppingResult[] = [];
+      
+      for (const item of items) {
+        const { data, error } = await supabase.functions.invoke("search-fashion", {
+          body: { description: item }
+        });
 
-      setResults(data.results);
+        if (error) throw error;
+
+        if (data.results && data.results.length > 0) {
+          searchResults.push(...data.results);
+        }
+      }
+
+      setResults(searchResults);
     } catch (error: any) {
       toast({
         title: "Search Failed",
@@ -72,7 +89,20 @@ const ShoppingResults = ({ outfit, onBack }: ShoppingResultsProps) => {
           </div>
           <div className="space-y-4">
             <h2 className="text-3xl font-bold text-foreground">Your Selected Look</h2>
-            <p className="text-muted-foreground leading-relaxed">{outfit.description}</p>
+            <div className="text-muted-foreground leading-relaxed space-y-2">
+              {(() => {
+                try {
+                  const desc = JSON.parse(outfit.description);
+                  return Object.entries(desc).map(([key, value]) => (
+                    <p key={key}>
+                      <span className="font-medium text-foreground">{key}:</span> {value as string}
+                    </p>
+                  ));
+                } catch {
+                  return <p>{outfit.description}</p>;
+                }
+              })()}
+            </div>
           </div>
         </div>
       </Card>

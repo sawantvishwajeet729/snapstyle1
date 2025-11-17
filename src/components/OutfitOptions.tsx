@@ -36,9 +36,20 @@ const OutfitOptions = ({ options, onSelect }: OutfitOptionsProps) => {
                 </div>
                 <h3 className="font-semibold text-foreground">Option {index + 1}</h3>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
-                {option.description}
-              </p>
+              <div className="text-sm text-muted-foreground leading-relaxed space-y-1">
+                {(() => {
+                  try {
+                    const desc = JSON.parse(option.description);
+                    return Object.entries(desc).map(([key, value]) => (
+                      <p key={key} className="line-clamp-2">
+                        <span className="font-medium text-foreground">{key}:</span> {value as string}
+                      </p>
+                    ));
+                  } catch {
+                    return <p className="line-clamp-3">{option.description}</p>;
+                  }
+                })()}
+              </div>
               <Button
                 onClick={() => onSelect(option)}
                 className="w-full bg-charcoal hover:bg-charcoal/90 text-pearl"
