@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { Sparkles, Upload, Loader2, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import OutfitOptions from "@/components/OutfitOptions";
 import ShoppingResults from "@/components/ShoppingResults";
 
@@ -41,30 +40,42 @@ const Stylist = () => {
 
     setAnalyzing(true);
     try {
-      // Extract base64 data from the data URL
-      const base64Data = selectedImage.split(',')[1];
+      // Convert base64 to File object
+      const base64Response = await fetch(selectedImage);
+      const blob = await base64Response.blob();
+      const file = new File([blob], "photo.jpg", { type: "image/jpeg" });
 
-      // Call Lovable Cloud edge function
-      const { data, error } = await supabase.functions.invoke('analyze-style', {
-        body: {
-          image: base64Data,
-          stylePreference: stylePreference
-        }
+      // Create FormData
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("style", stylePreference);
+
+      // Call FastAPI backend
+      const response = await fetch("https://snapstyle-api-1.onrender.com/generate-fashion", {
+        method: "POST",
+        body: formData,
       });
 
-      if (error) {
-        throw new Error(error.message || "Analysis failed");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Analysis failed");
       }
 
-      if (!data || !data.outfits) {
-        throw new Error("No outfits generated");
-      }
-
-      setOutfitOptions(data.outfits);
+      const data = await response.json();
+      
+      // Transform the response to match frontend expectations
+      const outfits: OutfitOption[] = [
+        {
+          image: `data:image/png;base64,${data.image_base64}`,
+          description: JSON.stringify(data.description)
+        }
+      ];
+      
+      setOutfitOptions(outfits);
       
       toast({
         title: "Analysis Complete!",
-        description: `${data.outfits.length} personalized outfit option${data.outfits.length > 1 ? 's are' : ' is'} ready.`,
+        description: "Your personalized outfit option is ready.",
       });
     } catch (error: any) {
       console.error("Analysis error:", error);
@@ -156,8 +167,8 @@ const Stylist = () => {
                     <h3 className="text-3xl font-bold text-foreground">Ready to Analyze</h3>
                     <p className="text-muted-foreground leading-relaxed">
                       Our AI will analyze your photo to identify your skin tone, face shape, 
-                      and body proportions. Then it will generate three personalized outfit 
-                      suggestions tailored just for you.
+                      and body proportions. Then it will generate a personalized outfit 
+                      suggestion tailored just for you.
                     </p>
                     
                     {/* Style Preference Selection */}
